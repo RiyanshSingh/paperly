@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free PDF Tools - Merge, Split, Compress & Convert PDF | Paperly</title>
+    <meta name="description" content="Use our free online PDF tools to merge, split, compress, and convert your PDF files. Processed locally in your browser for maximum privacy." />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free PDF Tools - Merge, Split, Compress & Convert PDF" />
+    <meta property="og:description" content="Use our free online PDF tools to merge, split, compress, and convert your PDF files. Processed locally in your browser for maximum privacy." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://paperly.example.com/" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free PDF Tools - Merge, Split, Compress & Convert PDF" />
+    <meta name="twitter:description" content="Use our free online PDF tools to merge, split, compress, and convert your PDF files." />
+  </head>
+  <body>
+    <div id="error-log" style="color: red; padding: 20px; font-family: monospace; white-space: pre-wrap; z-index: 9999; position: relative;"></div>
+    <script>
+      window.addEventListener('error', function(event) {
+        document.getElementById('error-log').textContent += event.message + '\n' + (event.error ? event.error.stack : '') + '\n\n';
+      });
+      window.addEventListener('unhandledrejection', function(event) {
+        document.getElementById('error-log').textContent += 'Unhandled promise rejection: ' + event.reason + '\n\n';
+      });
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
