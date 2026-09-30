@@ -38,7 +38,10 @@ export const PDFThumbnail: React.FC<PDFThumbnailProps> = ({
 
         const viewport = page.getViewport({ scale: 1 });
         const scale = width / viewport.width;
-        const scaledViewport = page.getViewport({ scale });
+        
+        // Use devicePixelRatio for high-quality retina rendering
+        const pixelRatio = window.devicePixelRatio || 2;
+        const scaledViewport = page.getViewport({ scale: scale * pixelRatio });
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -46,6 +49,7 @@ export const PDFThumbnail: React.FC<PDFThumbnailProps> = ({
         const context = canvas.getContext('2d');
         if (!context) return;
 
+        // Set actual canvas size to high resolution
         canvas.height = scaledViewport.height;
         canvas.width = scaledViewport.width;
 
