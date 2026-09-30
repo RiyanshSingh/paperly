@@ -1,6 +1,7 @@
 import React from 'react';
 import { AdPlaceholder } from '../components/ui/AdPlaceholder';
 import { SEO } from '../components/SEO';
+const CURRENT_DATE = new Date().toLocaleDateString();
 
 export const Privacy: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ export const Privacy: React.FC = () => {
       <h1 className="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tight">Privacy Policy</h1>
       
       <div className="prose prose-invert max-w-none space-y-6">
-        <p className="text-lg">Last updated: {new Date().toLocaleDateString()}</p>
+        <p className="text-lg">Last updated: {CURRENT_DATE}</p>
         
         <section>
           <h2 className="text-2xl font-semibold text-white mb-4 mt-8">1. Introduction</h2>

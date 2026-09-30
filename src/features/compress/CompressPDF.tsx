@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { FileUpload } from '../../components/ui/FileUpload';
 import { Button } from '../../components/ui/Button';
 import { AdPlaceholder } from '../../components/ui/AdPlaceholder';
-import { PDFDocument } from 'pdf-lib';
 import { AlertCircle, Download, FileArchive } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { usePersistentState } from '../../hooks/usePersistentState';
 import { SEO } from '../../components/SEO';
 
 export const CompressPDF: React.FC = () => {
-  const [state, setState, isReady] = usePersistentState('compress-pdf-state', {
+  const [state, setState] = usePersistentState('compress-pdf-state', {
     file: null as File | null,
     level: 'high' as 'minimum' | 'recommended' | 'high' | 'extreme' | 'custom',
     customSize: '',

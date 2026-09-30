@@ -18,7 +18,7 @@ interface PageItem {
 }
 
 export const DeletePages: React.FC = () => {
-  const [state, setState, isReady] = usePersistentState('delete-pages-state', {
+  const [state, setState] = usePersistentState('delete-pages-state', {
     file: null as File | null,
     pages: [] as PageItem[],
   });

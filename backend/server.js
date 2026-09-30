@@ -39,7 +39,7 @@ app.post('/api/unlock', upload.single('pdf'), (req, res) => {
       return res.status(400).json({ error: 'Failed to unlock PDF. Incorrect password.' });
     }
 
-    res.download(outputPath, 'unlocked.pdf', (err) => {
+    res.download(outputPath, 'unlocked.pdf', () => {
       if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
       if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
     });
@@ -65,7 +65,7 @@ app.post('/api/compress', upload.single('pdf'), async (req, res) => {
       // Use specific DPI for downsampling
       const cmd = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dDownsampleColorImages=true -dColorImageResolution=${dpi} -dDownsampleGrayImages=true -dGrayImageResolution=${dpi} -dDownsampleMonoImages=true -dMonoImageResolution=${dpi} -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${tempOutput}" "${inputPath}"`;
       
-      exec(cmd, (error, stdout, stderr) => {
+      exec(cmd, (error) => {
         if (error) {
           if (fs.existsSync(tempOutput)) fs.unlinkSync(tempOutput);
           reject(error);
@@ -116,7 +116,7 @@ app.post('/api/compress', upload.single('pdf'), async (req, res) => {
       });
     }
 
-    res.download(outputPath, 'compressed.pdf', (err) => {
+    res.download(outputPath, 'compressed.pdf', () => {
       if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
       if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
     });

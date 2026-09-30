@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FileDown } from "lucide-react";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Footer: React.FC = () => {
   return (
     <footer className="w-full border-t border-zinc-900 bg-black mt-auto">
@@ -51,7 +53,7 @@ export const Footer: React.FC = () => {
         </div>
         <div className="mt-12 pt-8 border-t border-zinc-900 text-center">
           <p className="text-sm text-zinc-600">
-            &copy; {new Date().getFullYear()} Paperly. All rights reserved. Your files are processed locally in your browser.
+            &copy; {CURRENT_YEAR} Paperly. All rights reserved. Your files are processed locally in your browser.
           </p>
         </div>
       </div>

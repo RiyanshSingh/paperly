@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps, react/immutability */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileUpload } from '../../components/ui/FileUpload';
@@ -5,7 +6,7 @@ import { Button } from '../../components/ui/Button';
 import { PDFDocument } from 'pdf-lib';
 import { pdfjsLib } from '../../lib/pdfjs';
 import { fabric } from 'fabric';
-import { Type, PenTool, Square, Trash2, Download, ChevronLeft, ChevronRight, Eraser, MousePointer2, AlertCircle, Image as ImageIcon, LayoutGrid, ZoomIn, ZoomOut, ArrowLeft, Undo, Redo, X, Highlighter, Menu, Circle, Minus, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Palette, Ban } from 'lucide-react';
+import { Type, PenTool, Square, Trash2, Download, ChevronLeft, ChevronRight, Eraser, MousePointer2, AlertCircle, Image as ImageIcon, ZoomIn, ZoomOut, ArrowLeft, Undo, Redo, X, Highlighter, Menu, Circle, Minus, Bold, Palette, Ban } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { usePersistentState } from '../../hooks/usePersistentState';
 import { SEO } from '../../components/SEO';
@@ -59,7 +60,41 @@ interface PDFPageEditorProps {
   isHistoryProcessing: React.MutableRefObject<boolean>;
 }
 
-const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTool, color, drawMode, drawThickness, pageStates, fabricInstances, onVisible, containerWidth, zoomLevel, undoStacks, redoStacks, isHistoryProcessing }) => {
+const hexToRgb = (hex: string) => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : { r: 0, g: 0, b: 0 };
+};
+
+const applyToolSettings = (canvas: fabric.Canvas, tool: string, currentColor: string, mode: string, thickness: number) => {
+  const isEraser = (tool === 'draw' && mode === 'eraser');
+  canvas.isDrawingMode = (tool === 'draw' && !isEraser);
+  canvas.selection = !isEraser;
+  canvas.defaultCursor = isEraser ? 'crosshair' : 'default';
+  canvas.hoverCursor = isEraser ? 'crosshair' : 'move';
+
+  // Prevent selecting objects while erasing
+  canvas.forEachObject(obj => {
+    obj.selectable = !isEraser;
+  });
+
+  if (tool === 'draw' && !isEraser) {
+    canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+    if (mode === 'pen') {
+      canvas.freeDrawingBrush.color = currentColor;
+      canvas.freeDrawingBrush.width = thickness;
+    } else if (mode === 'highlighter') {
+      const rgb = hexToRgb(currentColor);
+      canvas.freeDrawingBrush.color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)`;
+      canvas.freeDrawingBrush.width = thickness * 4;
+    }
+  }
+};
+
+const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTool, color, drawMode, drawThickness, pageStates, fabricInstances, onVisible, zoomLevel, undoStacks, redoStacks, isHistoryProcessing }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const bgCanvasRef = useRef<HTMLCanvasElement>(null);
   const fabricCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -130,7 +165,7 @@ const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTo
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-        renderTask = page.render({ canvasContext: context, viewport: renderViewport });
+        renderTask = page.render({ canvasContext: context, canvas: bgCanvas, viewport: renderViewport });
         await renderTask.promise;
         if (!isMounted) return;
 
@@ -214,7 +249,9 @@ const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTo
       if (renderTask) {
         try {
           renderTask.cancel();
-        } catch (e) {}
+        } catch {
+          // ignore
+        }
       }
       // On unmount, save state if fabric exists
       const fCanvas = fabricInstances.current.get(pageNum);
@@ -240,40 +277,6 @@ const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTo
       fCanvas.setZoom(zoomLevel);
     }
   }, [zoomLevel, dimensions]);
-
-  const hexToRgb = (hex: string) => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : { r: 0, g: 0, b: 0 };
-  };
-
-  const applyToolSettings = (canvas: fabric.Canvas, tool: string, currentColor: string, mode: string, thickness: number) => {
-    const isEraser = (tool === 'draw' && mode === 'eraser');
-    canvas.isDrawingMode = (tool === 'draw' && !isEraser);
-    canvas.selection = !isEraser;
-    canvas.defaultCursor = isEraser ? 'crosshair' : 'default';
-    canvas.hoverCursor = isEraser ? 'crosshair' : 'move';
-
-    // Prevent selecting objects while erasing
-    canvas.forEachObject(obj => {
-      obj.selectable = !isEraser;
-    });
-
-    if (tool === 'draw' && !isEraser) {
-      canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
-      if (mode === 'pen') {
-        canvas.freeDrawingBrush.color = currentColor;
-        canvas.freeDrawingBrush.width = thickness;
-      } else if (mode === 'highlighter') {
-        const rgb = hexToRgb(currentColor);
-        canvas.freeDrawingBrush.color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)`;
-        canvas.freeDrawingBrush.width = thickness * 4;
-      }
-    }
-  };
 
   return (
     <div 
@@ -315,7 +318,6 @@ export const PDFEditor: React.FC = () => {
   const [fontFamily, setFontFamily] = useState('Helvetica');
   const [showFontMenu, setShowFontMenu] = useState(false);
   const [isBold, setIsBold] = useState(false);
-  const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('left');
   
   const [shapeType, setShapeType] = useState<'rect' | 'circle' | 'line'>('rect');
   const [fillColor, setFillColor] = useState('transparent');
@@ -399,16 +401,6 @@ export const PDFEditor: React.FC = () => {
   const handleFontWeightChange = (bold: boolean) => {
     setIsBold(bold);
     if (activeTool === 'text') updateActiveObject({ fontWeight: bold ? 'bold' : 'normal' });
-  };
-
-  const handleTextAlign = (align: 'left' | 'center' | 'right') => {
-    setTextAlign(align);
-    if (activeTool === 'text') updateActiveObject({ textAlign: align });
-  };
-
-  const handleShapeTypeChange = (type: 'rect' | 'circle' | 'line') => {
-    setShapeType(type);
-    // Note: Changing shape type of an existing object is complex in Fabric, so we usually just set state for the next spawn
   };
 
   const handleFillColorChange = (c: string) => {

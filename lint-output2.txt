@@ -1,0 +1,270 @@
+
+> paperly@0.0.0 lint
+> oxlint
+
+
+  ! react(immutability): This value cannot be modified
+    ,-[src/features/editor/PDFEditor.tsx:61:192]
+ 60 | 
+ 61 | const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTool, color, drawMode, drawThickness, pageStates, fabricInstances, onVisible, zoomLevel, undoStacks, redoStacks, isHistoryProcessing }) => {
+    :                                                                                                                                                                                                ^^^^^^^^^|^^^^^^^^^
+    :                                                                                                                                                                                                         `-- `isHistoryProcessing` originates here
+ 62 |   const containerRef = useRef<HTMLDivElement>(null);
+    `----
+     ,-[src/features/editor/PDFEditor.tsx:147:18]
+ 146 |           const saveHistory = () => {
+ 147 |              if (isHistoryProcessing.current) return;
+     :                  ^^^^^^^^^|^^^^^^^^^
+     :                           `-- `isHistoryProcessing` cannot be modified
+ 148 |              const stacks = undoStacks.current.get(pageNum) || [];
+     `----
+  help: Do not mutate component props or hook arguments. If the value should change, update it where it is owned and pass an update callback, or use local state
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
+
+  ! react(immutability): Cannot access variable while it is being initialized
+     ,-[src/features/editor/PDFEditor.tsx:188:15]
+ 187 |               fCanvas?.renderAll();
+ 188 |               applyToolSettings(fCanvas!, activeTool, color, drawMode, drawThickness);
+     :               ^^^^^^^^|^^^^^^^^
+     :                       `-- `applyToolSettings` is read during its own initialization
+ 189 |               
+     `----
+  help: `applyToolSettings` is read while its declaration is still being initialized. Move the access after initialization. For a recursive callback, use a named function expression or restructure the callback so it does not capture itself during initialization
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
+
+  ! react(immutability): Cannot modify local variables after render completes
+     ,-[src/features/editor/PDFEditor.tsx:147:18]
+  91 |   // Render PDF
+  92 |   useEffect(() => {
+     :             ^^^|^^^
+     :                `-- This function may (indirectly) reassign or modify `isHistoryProcessing` after render
+  93 |     let isMounted = true;
+  94 |     let renderTask: any = null;
+  95 | 
+  96 |     const renderPage = async () => {
+  97 |       let lockAcquired = false;
+  98 |       const bgCanvas = bgCanvasRef.current;
+  99 |       if (!bgCanvas) return;
+ 100 | 
+ 101 |       try {
+ 102 |         const page = await pdfDoc.getPage(pageNum);
+ 103 |         const unscaledViewport = page.getViewport({ scale: 1.0 });
+ 104 |         
+ 105 |         // Render exactly at the PDF's intrinsic size
+ 106 |         const cssScale = 1.2; 
+ 107 |         const cssWidth = unscaledViewport.width * cssScale;
+ 108 |         const cssHeight = unscaledViewport.height * cssScale;
+ 109 |         
+ 110 |         if (isMounted) setDimensions({ width: cssWidth, height: cssHeight });
+ 111 | 
+ 112 |         const pixelRatio = window.devicePixelRatio || 2;
+ 113 |         const renderViewport = page.getViewport({ scale: cssScale * pixelRatio });
+ 114 | 
+ 115 |         const context = bgCanvas.getContext('2d');
+ 116 |         if (!context) return;
+ 117 | 
+ 118 |         // Wait for any pending renders on this canvas to fully abort (React Strict Mode)
+ 119 |         while (bgCanvas.getAttribute('data-rendering') === 'true') {
+ 120 |           await new Promise(resolve => setTimeout(resolve, 10));
+ 121 |           if (!isMounted) return; // if unmounted while waiting, finally block will NOT clear lock since lockAcquired=false
+ 122 |         }
+ 123 |         bgCanvas.setAttribute('data-rendering', 'true');
+ 124 |         lockAcquired = true;
+ 125 | 
+ 126 |         // Reset canvas state completely
+ 127 |         bgCanvas.width = renderViewport.width;
+ 128 |         bgCanvas.height = renderViewport.height;
+ 129 |         context.setTransform(1, 0, 0, 1, 0, 0);
+ 130 |         context.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+ 131 | 
+ 132 |         renderTask = page.render({ canvasContext: context, viewport: renderViewport });
+ 133 |         await renderTask.promise;
+ 134 |         if (!isMounted) return;
+ 135 | 
+ 136 |         // Setup Fabric
+ 137 |         let fCanvas = fabricInstances.current.get(pageNum);
+ 138 |         if (!fCanvas && fabricCanvasRef.current) {
+ 139 |           fCanvas = new fabric.Canvas(fabricCanvasRef.current, {
+ 140 |             isDrawingMode: false,
+ 141 |             preserveObjectStacking: true,
+ 142 |             enableRetinaScaling: true
+ 143 |           });
+ 144 |           fabricInstances.current.set(pageNum, fCanvas);
+ 145 | 
+ 146 |           const saveHistory = () => {
+ 147 |              if (isHistoryProcessing.current) return;
+     :                  ^^^^^^^^^|^^^^^^^^^
+     :                           `-- This modifies `isHistoryProcessing`
+ 148 |              const stacks = undoStacks.current.get(pageNum) || [];
+     `----
+  help: This argument is a function which may reassign or mutate `isHistoryProcessing` after render, which can cause inconsistent behavior on subsequent renders. Consider using state instead
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
+
+  ! react-hooks(exhaustive-deps): The ref's value `.current` is accessed directly in the effect cleanup function.
+     ,-[src/features/editor/PDFEditor.tsx:221:23]
+ 220 |       // On unmount, save state if fabric exists
+ 221 |       const fCanvas = fabricInstances.current.get(pageNum);
+     :                       ^^^^^^^^^^^^^^^^^^^^^^^
+ 222 |       if (fCanvas) {
+     `----
+  help: The ref value will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by react, copy it to a variable inside the effect and use that variable in the cleanup function.
+
+  ! react-hooks(exhaustive-deps): The ref's value `.current` is accessed directly in the effect cleanup function.
+     ,-[src/features/editor/PDFEditor.tsx:223:9]
+ 222 |       if (fCanvas) {
+ 223 |         pageStates.current.set(pageNum, fCanvas.toJSON());
+     :         ^^^^^^^^^^^^^^^^^^
+ 224 |       }
+     `----
+  help: The ref value will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by react, copy it to a variable inside the effect and use that variable in the cleanup function.
+
+  ! react-hooks(exhaustive-deps): React Hook useEffect has missing dependencies: 'isHistoryProcessing', 'drawMode', 'drawThickness', 'fabricInstances.current', 'undoStacks.current', 'zoomLevel', 'redoStacks.current', 'pageStates.current', 'color', and 'activeTool'
+     ,-[src/features/editor/PDFEditor.tsx:226:6]
+ 136 |         // Setup Fabric
+ 137 |         let fCanvas = fabricInstances.current.get(pageNum);
+     :                       ^^^^^^^^^^^^^^^^^^^^^^^
+ 138 |         if (!fCanvas && fabricCanvasRef.current) {
+ 139 |           fCanvas = new fabric.Canvas(fabricCanvasRef.current, {
+ 140 |             isDrawingMode: false,
+ 141 |             preserveObjectStacking: true,
+ 142 |             enableRetinaScaling: true
+ 143 |           });
+ 144 |           fabricInstances.current.set(pageNum, fCanvas);
+ 145 | 
+ 146 |           const saveHistory = () => {
+ 147 |              if (isHistoryProcessing.current) return;
+     :                  ^^^^^^^^^^^^^^^^^^^
+ 148 |              const stacks = undoStacks.current.get(pageNum) || [];
+     :                             ^^^^^^^^^^^^^^^^^^
+ 149 |              stacks.push(fCanvas!.toJSON());
+ 150 |              undoStacks.current.set(pageNum, stacks);
+ 151 |              redoStacks.current.set(pageNum, []); 
+     :              ^^^^^^^^^^^^^^^^^^
+ 152 |              pageStates.current.set(pageNum, fCanvas!.toJSON());
+     :              ^^^^^^^^^^^^^^^^^^
+ 153 |           };
+ 154 | 
+ 155 |           fCanvas.on('object:added', saveHistory);
+ 156 |           fCanvas.on('object:modified', saveHistory);
+ 157 |           fCanvas.on('object:removed', saveHistory);
+ 158 | 
+ 159 |           // Erasing logic
+ 160 |           let isErasing = false;
+ 161 |           fCanvas.on('mouse:down', (options) => {
+ 162 |              const state = modeRef.current;
+ 163 |              if (state.activeTool === 'draw' && state.drawMode === 'eraser') {
+ 164 |                isErasing = true;
+ 165 |                if (options.target) fCanvas?.remove(options.target);
+ 166 |              }
+ 167 |           });
+ 168 |           fCanvas.on('mouse:over', (options) => {
+ 169 |              const state = modeRef.current;
+ 170 |              if (isErasing && state.activeTool === 'draw' && state.drawMode === 'eraser') {
+ 171 |                if (options.target) fCanvas?.remove(options.target);
+ 172 |              }
+ 173 |           });
+ 174 |           fCanvas.on('mouse:up', () => {
+ 175 |              isErasing = false;
+ 176 |           });
+ 177 |         }
+ 178 | 
+ 179 |         if (fCanvas) {
+ 180 |           fCanvas.setDimensions({ width: cssWidth * zoomLevel, height: cssHeight * zoomLevel });
+     :                                                     ^^^^^^^^^
+ 181 |           fCanvas.setZoom(zoomLevel);
+ 182 | 
+ 183 |           const savedState = pageStates.current.get(pageNum);
+ 184 |           if (savedState) {
+ 185 |             isHistoryProcessing.current = true;
+ 186 |             fCanvas.loadFromJSON(savedState, () => {
+ 187 |               fCanvas?.renderAll();
+ 188 |               applyToolSettings(fCanvas!, activeTool, color, drawMode, drawThickness);
+     :                                           ^^^^^^^^^^  ^^^^^  ^^^^^^^^  ^^^^^^^^^^^^^
+ 189 |               
+ 190 |               if (!undoStacks.current.has(pageNum)) {
+ 191 |                  undoStacks.current.set(pageNum, [fCanvas!.toJSON()]);
+ 192 |               }
+ 193 |               isHistoryProcessing.current = false;
+ 194 |             });
+ 195 |           } else {
+ 196 |             applyToolSettings(fCanvas, activeTool, color, drawMode, drawThickness);
+ 197 |             if (!undoStacks.current.has(pageNum)) {
+ 198 |                undoStacks.current.set(pageNum, [fCanvas.toJSON()]);
+ 199 |             }
+ 200 |           }
+ 201 |         }
+ 202 |       } catch (err: any) {
+ 203 |         if (err?.name === 'RenderingCancelledException') return;
+ 204 |         console.error('Error rendering page:', err);
+ 205 |       } finally {
+ 206 |         if (bgCanvas && lockAcquired) bgCanvas.setAttribute('data-rendering', 'false');
+ 207 |       }
+ 208 |     };
+ 209 |     renderPage();
+ 210 | 
+ 211 |     return () => {
+ 212 |       isMounted = false;
+ 213 |       if (renderTask) {
+ 214 |         try {
+ 215 |           renderTask.cancel();
+ 216 |         } catch {
+ 217 |           // ignore
+ 218 |         }
+ 219 |       }
+ 220 |       // On unmount, save state if fabric exists
+ 221 |       const fCanvas = fabricInstances.current.get(pageNum);
+ 222 |       if (fCanvas) {
+ 223 |         pageStates.current.set(pageNum, fCanvas.toJSON());
+ 224 |       }
+ 225 |     }
+ 226 |   }, [pdfDoc, pageNum]);
+     :      ^^^^^^^^^^^^^^^^^
+ 227 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+  ! react-hooks(exhaustive-deps): React Hook useEffect has a missing dependency: 'fabricInstances.current'
+     ,-[src/features/editor/PDFEditor.tsx:231:6]
+ 228 |   useEffect(() => {
+ 229 |     const fCanvas = fabricInstances.current.get(pageNum);
+     :                     ^^^^^^^^^^^|^^^^^^^^^^^
+     :                                `-- useEffect uses `fabricInstances.current` here
+ 230 |     if (fCanvas) applyToolSettings(fCanvas, activeTool, color, drawMode, drawThickness);
+ 231 |   }, [activeTool, color, drawMode, drawThickness, pageNum]);
+     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 232 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+  ! react-hooks(exhaustive-deps): React Hook useEffect has missing dependencies: 'fabricInstances.current', and 'pageNum'
+     ,-[src/features/editor/PDFEditor.tsx:243:6]
+ 234 |   useEffect(() => {
+ 235 |     const fCanvas = fabricInstances.current.get(pageNum);
+     :                     ^^^^^^^^^^^^^^^^^^^^^^^     ^^^^^^^
+ 236 |     if (fCanvas && dimensions.width > 0) {
+ 237 |       fCanvas.setDimensions({ 
+ 238 |         width: dimensions.width * zoomLevel, 
+ 239 |         height: dimensions.height * zoomLevel 
+ 240 |       });
+ 241 |       fCanvas.setZoom(zoomLevel);
+ 242 |     }
+ 243 |   }, [zoomLevel, dimensions]);
+     :      ^^^^^^^^^^^^^^^^^^^^^^^
+ 244 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+  ! react-hooks(exhaustive-deps): React Hook useCallback has a missing dependency: 'setPageNum'
+     ,-[src/features/editor/PDFEditor.tsx:493:6]
+ 491 |   const handlePageVisible = useCallback((num: number) => {
+ 492 |     setPageNum(num);
+     :     ^^^^^|^^^^
+     :          `-- useCallback uses `setPageNum` here
+ 493 |   }, []);
+     :      ^^
+ 494 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+Found 9 warnings and 0 errors.
+Finished in 65ms on 28 files with 116 rules using 8 threads.

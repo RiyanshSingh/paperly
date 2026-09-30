@@ -4,7 +4,6 @@ import { Button } from '../../components/ui/Button';
 import { AdPlaceholder } from '../../components/ui/AdPlaceholder';
 import { PDFDocument } from 'pdf-lib';
 import { AlertCircle, Download, Unlock, KeyRound } from 'lucide-react';
-import { cn } from '../../lib/utils';
 import { SEO } from '../../components/SEO';
 
 export const UnlockPDF: React.FC = () => {
@@ -86,7 +85,9 @@ export const UnlockPDF: React.FC = () => {
             try {
               const data = await response.json();
               errorMsg = data.error;
-            } catch (e) {}
+            } catch {
+              // ignore
+            }
             throw new Error(errorMsg);
           }
 

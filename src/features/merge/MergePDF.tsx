@@ -16,7 +16,7 @@ interface PDFFile {
 }
 
 export const MergePDF: React.FC = () => {
-  const [state, setState, isReady] = usePersistentState('merge-pdf-state', {
+  const [state, setState] = usePersistentState('merge-pdf-state', {
     files: [] as PDFFile[],
   });
 

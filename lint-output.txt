@@ -1,0 +1,501 @@
+
+> paperly@0.0.0 lint
+> oxlint
+
+
+  ! eslint(no-unused-vars): Parameter 'err' is declared but never used. Unused parameters should start with a '_'.
+    ,-[backend/server.js:42:47]
+ 41 | 
+ 42 |     res.download(outputPath, 'unlocked.pdf', (err) => {
+    :                                               ^|^
+    :                                                `-- 'err' is declared here
+ 43 |       if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+    `----
+  help: Consider removing this parameter.
+
+  ! eslint(no-unused-vars): Parameter 'stdout' is declared but never used. Unused parameters should start with a '_'.
+    ,-[backend/server.js:68:25]
+ 67 |       
+ 68 |       exec(cmd, (error, stdout, stderr) => {
+    :                         ^^^|^^
+    :                            `-- 'stdout' is declared here
+ 69 |         if (error) {
+    `----
+  help: Consider removing this parameter.
+
+  ! eslint(no-unused-vars): Parameter 'stderr' is declared but never used. Unused parameters should start with a '_'.
+    ,-[backend/server.js:68:33]
+ 67 |       
+ 68 |       exec(cmd, (error, stdout, stderr) => {
+    :                                 ^^^|^^
+    :                                    `-- 'stderr' is declared here
+ 69 |         if (error) {
+    `----
+  help: Consider removing this parameter.
+
+  ! eslint(no-unused-vars): Parameter 'err' is declared but never used. Unused parameters should start with a '_'.
+     ,-[backend/server.js:119:49]
+ 118 | 
+ 119 |     res.download(outputPath, 'compressed.pdf', (err) => {
+     :                                                 ^|^
+     :                                                  `-- 'err' is declared here
+ 120 |       if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+     `----
+  help: Consider removing this parameter.
+
+  ! react(purity): Cannot call impure function during render
+    ,-[src/pages/Terms.tsx:16:47]
+ 15 |       <div className="prose prose-invert max-w-none space-y-6">
+ 16 |         <p className="text-lg">Last updated: {new Date().toLocaleDateString()}</p>
+    :                                               ^^^^^|^^^^
+    :                                                    `-- Cannot call impure function
+ 17 |         
+    `----
+  help: `Date` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component re-renders
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/purity
+
+  ! react(purity): Cannot call impure function during render
+    ,-[src/components/layout/Footer.tsx:54:21]
+ 53 |           <p className="text-sm text-zinc-600">
+ 54 |             &copy; {new Date().getFullYear()} Paperly. All rights reserved. Your files are processed locally in your browser.
+    :                     ^^^^^|^^^^
+    :                          `-- Cannot call impure function
+ 55 |           </p>
+    `----
+  help: `Date` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component re-renders
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/purity
+
+  ! eslint(no-unused-vars): Identifier 'PDFDocument' is imported but never used.
+   ,-[src/features/compress/CompressPDF.tsx:5:10]
+ 4 | import { AdPlaceholder } from '../../components/ui/AdPlaceholder';
+ 5 | import { PDFDocument } from 'pdf-lib';
+   :          ^^^^^|^^^^^
+   :               `-- 'PDFDocument' is imported here
+ 6 | import { AlertCircle, Download, FileArchive } from 'lucide-react';
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Variable 'isReady' is declared but never used. Unused variables should start with a '_'.
+    ,-[src/features/compress/CompressPDF.tsx:12:27]
+ 11 | export const CompressPDF: React.FC = () => {
+ 12 |   const [state, setState, isReady] = usePersistentState('compress-pdf-state', {
+    :                           ^^^|^^^
+    :                              `-- 'isReady' is declared here
+ 13 |     file: null as File | null,
+    `----
+  help: Consider removing this declaration.
+
+  ! react(purity): Cannot call impure function during render
+    ,-[src/pages/Privacy.tsx:16:47]
+ 15 |       <div className="prose prose-invert max-w-none space-y-6">
+ 16 |         <p className="text-lg">Last updated: {new Date().toLocaleDateString()}</p>
+    :                                               ^^^^^|^^^^
+    :                                                    `-- Cannot call impure function
+ 17 |         
+    `----
+  help: `Date` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component re-renders
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/purity
+
+  ! eslint(no-unused-vars): Variable 'isReady' is declared but never used. Unused variables should start with a '_'.
+    ,-[src/features/merge/MergePDF.tsx:19:27]
+ 18 | export const MergePDF: React.FC = () => {
+ 19 |   const [state, setState, isReady] = usePersistentState('merge-pdf-state', {
+    :                           ^^^|^^^
+    :                              `-- 'isReady' is declared here
+ 20 |     files: [] as PDFFile[],
+    `----
+  help: Consider removing this declaration.
+
+  ! eslint(no-unused-vars): Identifier 'cn' is imported but never used.
+   ,-[src/features/unlock/UnlockPDF.tsx:7:10]
+ 6 | import { AlertCircle, Download, Unlock, KeyRound } from 'lucide-react';
+ 7 | import { cn } from '../../lib/utils';
+   :          ^|
+   :           `-- 'cn' is imported here
+ 8 | import { SEO } from '../../components/SEO';
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Catch parameter 'e' is caught but never used.
+    ,-[src/features/unlock/UnlockPDF.tsx:89:22]
+ 88 |               errorMsg = data.error;
+ 89 |             } catch (e) {}
+    :                      |
+    :                      `-- 'e' is declared here
+ 90 |             throw new Error(errorMsg);
+    `----
+  help: Consider handling this error.
+
+  ! eslint(no-unused-vars): Variable 'isReady' is declared but never used. Unused variables should start with a '_'.
+    ,-[src/features/page-management/DeletePages.tsx:21:27]
+ 20 | export const DeletePages: React.FC = () => {
+ 21 |   const [state, setState, isReady] = usePersistentState('delete-pages-state', {
+    :                           ^^^|^^^
+    :                              `-- 'isReady' is declared here
+ 22 |     file: null as File | null,
+    `----
+  help: Consider removing this declaration.
+
+  ! eslint(no-unused-vars): Identifier 'LayoutGrid' is imported but never used.
+   ,-[src/features/editor/PDFEditor.tsx:8:134]
+ 7 | import { fabric } from 'fabric';
+ 8 | import { Type, PenTool, Square, Trash2, Download, ChevronLeft, ChevronRight, Eraser, MousePointer2, AlertCircle, Image as ImageIcon, LayoutGrid, ZoomIn, ZoomOut, ArrowLeft, Undo, Redo, X, Highlighter, Menu, Circle, Minus, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Palette, Ban } from 'lucide-react';
+   :                                                                                                                                      ^^^^^|^^^^
+   :                                                                                                                                           `-- 'LayoutGrid' is imported here
+ 9 | import { cn } from '../../lib/utils';
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'AlignLeft' is imported but never used.
+   ,-[src/features/editor/PDFEditor.tsx:8:223]
+ 7 | import { fabric } from 'fabric';
+ 8 | import { Type, PenTool, Square, Trash2, Download, ChevronLeft, ChevronRight, Eraser, MousePointer2, AlertCircle, Image as ImageIcon, LayoutGrid, ZoomIn, ZoomOut, ArrowLeft, Undo, Redo, X, Highlighter, Menu, Circle, Minus, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Palette, Ban } from 'lucide-react';
+   :                                                                                                                                                                                                                               ^^^^|^^^^
+   :                                                                                                                                                                                                                                   `-- 'AlignLeft' is imported here
+ 9 | import { cn } from '../../lib/utils';
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'AlignCenter' is imported but never used.
+   ,-[src/features/editor/PDFEditor.tsx:8:234]
+ 7 | import { fabric } from 'fabric';
+ 8 | import { Type, PenTool, Square, Trash2, Download, ChevronLeft, ChevronRight, Eraser, MousePointer2, AlertCircle, Image as ImageIcon, LayoutGrid, ZoomIn, ZoomOut, ArrowLeft, Undo, Redo, X, Highlighter, Menu, Circle, Minus, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Palette, Ban } from 'lucide-react';
+   :                                                                                                                                                                                                                                          ^^^^^|^^^^^
+   :                                                                                                                                                                                                                                               `-- 'AlignCenter' is imported here
+ 9 | import { cn } from '../../lib/utils';
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'AlignRight' is imported but never used.
+   ,-[src/features/editor/PDFEditor.tsx:8:247]
+ 7 | import { fabric } from 'fabric';
+ 8 | import { Type, PenTool, Square, Trash2, Download, ChevronLeft, ChevronRight, Eraser, MousePointer2, AlertCircle, Image as ImageIcon, LayoutGrid, ZoomIn, ZoomOut, ArrowLeft, Undo, Redo, X, Highlighter, Menu, Circle, Minus, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Palette, Ban } from 'lucide-react';
+   :                                                                                                                                                                                                                                                       ^^^^^|^^^^
+   :                                                                                                                                                                                                                                                            `-- 'AlignRight' is imported here
+ 9 | import { cn } from '../../lib/utils';
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'Italic' is imported but never used.
+   ,-[src/features/editor/PDFEditor.tsx:8:265]
+ 7 | import { fabric } from 'fabric';
+ 8 | import { Type, PenTool, Square, Trash2, Download, ChevronLeft, ChevronRight, Eraser, MousePointer2, AlertCircle, Image as ImageIcon, LayoutGrid, ZoomIn, ZoomOut, ArrowLeft, Undo, Redo, X, Highlighter, Menu, Circle, Minus, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Palette, Ban } from 'lucide-react';
+   :                                                                                                                                                                                                                                                                         ^^^|^^
+   :                                                                                                                                                                                                                                                                            `-- 'Italic' is imported here
+ 9 | import { cn } from '../../lib/utils';
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Parameter 'containerWidth' is declared but never used. Unused parameters should start with a '_'.
+    ,-[src/features/editor/PDFEditor.tsx:62:157]
+ 61 | 
+ 62 | const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTool, color, drawMode, drawThickness, pageStates, fabricInstances, onVisible, containerWidth, zoomLevel, undoStacks, redoStacks, isHistoryProcessing }) => {
+    :                                                                                                                                                             ^^^^^^^|^^^^^^
+    :                                                                                                                                                                    `-- 'containerWidth' is declared here
+ 63 |   const containerRef = useRef<HTMLDivElement>(null);
+    `----
+  help: Consider removing this parameter.
+
+  ! eslint(no-unused-vars): Catch parameter 'e' is caught but never used.
+     ,-[src/features/editor/PDFEditor.tsx:217:18]
+ 216 |           renderTask.cancel();
+ 217 |         } catch (e) {}
+     :                  |
+     :                  `-- 'e' is declared here
+ 218 |       }
+     `----
+  help: Consider handling this error.
+
+  ! eslint(no-unused-vars): Variable 'textAlign' is declared but never used. Unused variables should start with a '_'.
+     ,-[src/features/editor/PDFEditor.tsx:318:10]
+ 317 |   const [isBold, setIsBold] = useState(false);
+ 318 |   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('left');
+     :          ^^^^|^^^^
+     :              `-- 'textAlign' is declared here
+ 319 |   
+     `----
+  help: Consider removing this declaration.
+
+  ! eslint(no-unused-vars): Variable 'handleTextAlign' is declared but never used. Unused variables should start with a '_'.
+     ,-[src/features/editor/PDFEditor.tsx:404:9]
+ 403 | 
+ 404 |   const handleTextAlign = (align: 'left' | 'center' | 'right') => {
+     :         ^^^^^^^|^^^^^^^
+     :                `-- 'handleTextAlign' is declared here
+ 405 |     setTextAlign(align);
+     `----
+  help: Consider removing this declaration.
+
+  ! eslint(no-unused-vars): Variable 'handleShapeTypeChange' is declared but never used. Unused variables should start with a '_'.
+     ,-[src/features/editor/PDFEditor.tsx:409:9]
+ 408 | 
+ 409 |   const handleShapeTypeChange = (type: 'rect' | 'circle' | 'line') => {
+     :         ^^^^^^^^^^|^^^^^^^^^^
+     :                   `-- 'handleShapeTypeChange' is declared here
+ 410 |     setShapeType(type);
+     `----
+  help: Consider removing this declaration.
+
+  ! react(immutability): This value cannot be modified
+    ,-[src/features/editor/PDFEditor.tsx:62:208]
+ 61 | 
+ 62 | const PDFPageEditor: React.FC<PDFPageEditorProps> = ({ pageNum, pdfDoc, activeTool, color, drawMode, drawThickness, pageStates, fabricInstances, onVisible, containerWidth, zoomLevel, undoStacks, redoStacks, isHistoryProcessing }) => {
+    :                                                                                                                                                                                                                ^^^^^^^^^|^^^^^^^^^
+    :                                                                                                                                                                                                                         `-- `isHistoryProcessing` originates here
+ 63 |   const containerRef = useRef<HTMLDivElement>(null);
+    `----
+     ,-[src/features/editor/PDFEditor.tsx:148:18]
+ 147 |           const saveHistory = () => {
+ 148 |              if (isHistoryProcessing.current) return;
+     :                  ^^^^^^^^^|^^^^^^^^^
+     :                           `-- `isHistoryProcessing` cannot be modified
+ 149 |              const stacks = undoStacks.current.get(pageNum) || [];
+     `----
+  help: Do not mutate component props or hook arguments. If the value should change, update it where it is owned and pass an update callback, or use local state
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
+
+  ! react(immutability): Cannot access variable while it is being initialized
+     ,-[src/features/editor/PDFEditor.tsx:189:15]
+ 188 |               fCanvas?.renderAll();
+ 189 |               applyToolSettings(fCanvas!, activeTool, color, drawMode, drawThickness);
+     :               ^^^^^^^^|^^^^^^^^
+     :                       `-- `applyToolSettings` is read during its own initialization
+ 190 |               
+     `----
+  help: `applyToolSettings` is read while its declaration is still being initialized. Move the access after initialization. For a recursive callback, use a named function expression or restructure the callback so it does not capture itself during initialization
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
+
+  ! react(immutability): Cannot modify local variables after render completes
+     ,-[src/features/editor/PDFEditor.tsx:148:18]
+  92 |   // Render PDF
+  93 |   useEffect(() => {
+     :             ^^^|^^^
+     :                `-- This function may (indirectly) reassign or modify `isHistoryProcessing` after render
+  94 |     let isMounted = true;
+  95 |     let renderTask: any = null;
+  96 | 
+  97 |     const renderPage = async () => {
+  98 |       let lockAcquired = false;
+  99 |       const bgCanvas = bgCanvasRef.current;
+ 100 |       if (!bgCanvas) return;
+ 101 | 
+ 102 |       try {
+ 103 |         const page = await pdfDoc.getPage(pageNum);
+ 104 |         const unscaledViewport = page.getViewport({ scale: 1.0 });
+ 105 |         
+ 106 |         // Render exactly at the PDF's intrinsic size
+ 107 |         const cssScale = 1.2; 
+ 108 |         const cssWidth = unscaledViewport.width * cssScale;
+ 109 |         const cssHeight = unscaledViewport.height * cssScale;
+ 110 |         
+ 111 |         if (isMounted) setDimensions({ width: cssWidth, height: cssHeight });
+ 112 | 
+ 113 |         const pixelRatio = window.devicePixelRatio || 2;
+ 114 |         const renderViewport = page.getViewport({ scale: cssScale * pixelRatio });
+ 115 | 
+ 116 |         const context = bgCanvas.getContext('2d');
+ 117 |         if (!context) return;
+ 118 | 
+ 119 |         // Wait for any pending renders on this canvas to fully abort (React Strict Mode)
+ 120 |         while (bgCanvas.getAttribute('data-rendering') === 'true') {
+ 121 |           await new Promise(resolve => setTimeout(resolve, 10));
+ 122 |           if (!isMounted) return; // if unmounted while waiting, finally block will NOT clear lock since lockAcquired=false
+ 123 |         }
+ 124 |         bgCanvas.setAttribute('data-rendering', 'true');
+ 125 |         lockAcquired = true;
+ 126 | 
+ 127 |         // Reset canvas state completely
+ 128 |         bgCanvas.width = renderViewport.width;
+ 129 |         bgCanvas.height = renderViewport.height;
+ 130 |         context.setTransform(1, 0, 0, 1, 0, 0);
+ 131 |         context.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+ 132 | 
+ 133 |         renderTask = page.render({ canvasContext: context, viewport: renderViewport });
+ 134 |         await renderTask.promise;
+ 135 |         if (!isMounted) return;
+ 136 | 
+ 137 |         // Setup Fabric
+ 138 |         let fCanvas = fabricInstances.current.get(pageNum);
+ 139 |         if (!fCanvas && fabricCanvasRef.current) {
+ 140 |           fCanvas = new fabric.Canvas(fabricCanvasRef.current, {
+ 141 |             isDrawingMode: false,
+ 142 |             preserveObjectStacking: true,
+ 143 |             enableRetinaScaling: true
+ 144 |           });
+ 145 |           fabricInstances.current.set(pageNum, fCanvas);
+ 146 | 
+ 147 |           const saveHistory = () => {
+ 148 |              if (isHistoryProcessing.current) return;
+     :                  ^^^^^^^^^|^^^^^^^^^
+     :                           `-- This modifies `isHistoryProcessing`
+ 149 |              const stacks = undoStacks.current.get(pageNum) || [];
+     `----
+  help: This argument is a function which may reassign or mutate `isHistoryProcessing` after render, which can cause inconsistent behavior on subsequent renders. Consider using state instead
+  note: React Compiler skipped optimizing this component or hook. Additional guidance: https://react.dev/reference/eslint-plugin-react-hooks/lints/immutability
+
+  ! react-hooks(exhaustive-deps): The ref's value `.current` is accessed directly in the effect cleanup function.
+     ,-[src/features/editor/PDFEditor.tsx:220:23]
+ 219 |       // On unmount, save state if fabric exists
+ 220 |       const fCanvas = fabricInstances.current.get(pageNum);
+     :                       ^^^^^^^^^^^^^^^^^^^^^^^
+ 221 |       if (fCanvas) {
+     `----
+  help: The ref value will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by react, copy it to a variable inside the effect and use that variable in the cleanup function.
+
+  ! react-hooks(exhaustive-deps): The ref's value `.current` is accessed directly in the effect cleanup function.
+     ,-[src/features/editor/PDFEditor.tsx:222:9]
+ 221 |       if (fCanvas) {
+ 222 |         pageStates.current.set(pageNum, fCanvas.toJSON());
+     :         ^^^^^^^^^^^^^^^^^^
+ 223 |       }
+     `----
+  help: The ref value will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by react, copy it to a variable inside the effect and use that variable in the cleanup function.
+
+  ! react-hooks(exhaustive-deps): React Hook useEffect has missing dependencies: 'drawMode', 'drawThickness', 'undoStacks.current', 'redoStacks.current', 'zoomLevel', 'color', 'activeTool', 'fabricInstances.current', 'pageStates.current', and 'isHistoryProcessing'
+     ,-[src/features/editor/PDFEditor.tsx:225:6]
+ 137 |         // Setup Fabric
+ 138 |         let fCanvas = fabricInstances.current.get(pageNum);
+     :                       ^^^^^^^^^^^^^^^^^^^^^^^
+ 139 |         if (!fCanvas && fabricCanvasRef.current) {
+ 140 |           fCanvas = new fabric.Canvas(fabricCanvasRef.current, {
+ 141 |             isDrawingMode: false,
+ 142 |             preserveObjectStacking: true,
+ 143 |             enableRetinaScaling: true
+ 144 |           });
+ 145 |           fabricInstances.current.set(pageNum, fCanvas);
+ 146 | 
+ 147 |           const saveHistory = () => {
+ 148 |              if (isHistoryProcessing.current) return;
+     :                  ^^^^^^^^^^^^^^^^^^^
+ 149 |              const stacks = undoStacks.current.get(pageNum) || [];
+     :                             ^^^^^^^^^^^^^^^^^^
+ 150 |              stacks.push(fCanvas!.toJSON());
+ 151 |              undoStacks.current.set(pageNum, stacks);
+ 152 |              redoStacks.current.set(pageNum, []); 
+     :              ^^^^^^^^^^^^^^^^^^
+ 153 |              pageStates.current.set(pageNum, fCanvas!.toJSON());
+     :              ^^^^^^^^^^^^^^^^^^
+ 154 |           };
+ 155 | 
+ 156 |           fCanvas.on('object:added', saveHistory);
+ 157 |           fCanvas.on('object:modified', saveHistory);
+ 158 |           fCanvas.on('object:removed', saveHistory);
+ 159 | 
+ 160 |           // Erasing logic
+ 161 |           let isErasing = false;
+ 162 |           fCanvas.on('mouse:down', (options) => {
+ 163 |              const state = modeRef.current;
+ 164 |              if (state.activeTool === 'draw' && state.drawMode === 'eraser') {
+ 165 |                isErasing = true;
+ 166 |                if (options.target) fCanvas?.remove(options.target);
+ 167 |              }
+ 168 |           });
+ 169 |           fCanvas.on('mouse:over', (options) => {
+ 170 |              const state = modeRef.current;
+ 171 |              if (isErasing && state.activeTool === 'draw' && state.drawMode === 'eraser') {
+ 172 |                if (options.target) fCanvas?.remove(options.target);
+ 173 |              }
+ 174 |           });
+ 175 |           fCanvas.on('mouse:up', () => {
+ 176 |              isErasing = false;
+ 177 |           });
+ 178 |         }
+ 179 | 
+ 180 |         if (fCanvas) {
+ 181 |           fCanvas.setDimensions({ width: cssWidth * zoomLevel, height: cssHeight * zoomLevel });
+     :                                                     ^^^^^^^^^
+ 182 |           fCanvas.setZoom(zoomLevel);
+ 183 | 
+ 184 |           const savedState = pageStates.current.get(pageNum);
+ 185 |           if (savedState) {
+ 186 |             isHistoryProcessing.current = true;
+ 187 |             fCanvas.loadFromJSON(savedState, () => {
+ 188 |               fCanvas?.renderAll();
+ 189 |               applyToolSettings(fCanvas!, activeTool, color, drawMode, drawThickness);
+     :                                           ^^^^^^^^^^  ^^^^^  ^^^^^^^^  ^^^^^^^^^^^^^
+ 190 |               
+ 191 |               if (!undoStacks.current.has(pageNum)) {
+ 192 |                  undoStacks.current.set(pageNum, [fCanvas!.toJSON()]);
+ 193 |               }
+ 194 |               isHistoryProcessing.current = false;
+ 195 |             });
+ 196 |           } else {
+ 197 |             applyToolSettings(fCanvas, activeTool, color, drawMode, drawThickness);
+ 198 |             if (!undoStacks.current.has(pageNum)) {
+ 199 |                undoStacks.current.set(pageNum, [fCanvas.toJSON()]);
+ 200 |             }
+ 201 |           }
+ 202 |         }
+ 203 |       } catch (err: any) {
+ 204 |         if (err?.name === 'RenderingCancelledException') return;
+ 205 |         console.error('Error rendering page:', err);
+ 206 |       } finally {
+ 207 |         if (bgCanvas && lockAcquired) bgCanvas.setAttribute('data-rendering', 'false');
+ 208 |       }
+ 209 |     };
+ 210 |     renderPage();
+ 211 | 
+ 212 |     return () => {
+ 213 |       isMounted = false;
+ 214 |       if (renderTask) {
+ 215 |         try {
+ 216 |           renderTask.cancel();
+ 217 |         } catch (e) {}
+ 218 |       }
+ 219 |       // On unmount, save state if fabric exists
+ 220 |       const fCanvas = fabricInstances.current.get(pageNum);
+ 221 |       if (fCanvas) {
+ 222 |         pageStates.current.set(pageNum, fCanvas.toJSON());
+ 223 |       }
+ 224 |     }
+ 225 |   }, [pdfDoc, pageNum]);
+     :      ^^^^^^^^^^^^^^^^^
+ 226 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+  ! react-hooks(exhaustive-deps): React Hook useEffect has a missing dependency: 'fabricInstances.current'
+     ,-[src/features/editor/PDFEditor.tsx:230:6]
+ 227 |   useEffect(() => {
+ 228 |     const fCanvas = fabricInstances.current.get(pageNum);
+     :                     ^^^^^^^^^^^|^^^^^^^^^^^
+     :                                `-- useEffect uses `fabricInstances.current` here
+ 229 |     if (fCanvas) applyToolSettings(fCanvas, activeTool, color, drawMode, drawThickness);
+ 230 |   }, [activeTool, color, drawMode, drawThickness, pageNum]);
+     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 231 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+  ! react-hooks(exhaustive-deps): React Hook useEffect has missing dependencies: 'fabricInstances.current', and 'pageNum'
+     ,-[src/features/editor/PDFEditor.tsx:242:6]
+ 233 |   useEffect(() => {
+ 234 |     const fCanvas = fabricInstances.current.get(pageNum);
+     :                     ^^^^^^^^^^^^^^^^^^^^^^^     ^^^^^^^
+ 235 |     if (fCanvas && dimensions.width > 0) {
+ 236 |       fCanvas.setDimensions({ 
+ 237 |         width: dimensions.width * zoomLevel, 
+ 238 |         height: dimensions.height * zoomLevel 
+ 239 |       });
+ 240 |       fCanvas.setZoom(zoomLevel);
+ 241 |     }
+ 242 |   }, [zoomLevel, dimensions]);
+     :      ^^^^^^^^^^^^^^^^^^^^^^^
+ 243 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+  ! react-hooks(exhaustive-deps): React Hook useCallback has a missing dependency: 'setPageNum'
+     ,-[src/features/editor/PDFEditor.tsx:503:6]
+ 501 |   const handlePageVisible = useCallback((num: number) => {
+ 502 |     setPageNum(num);
+     :     ^^^^^|^^^^
+     :          `-- useCallback uses `setPageNum` here
+ 503 |   }, []);
+     :      ^^
+ 504 | 
+     `----
+  help: Either include it or remove the dependency array.
+
+Found 32 warnings and 0 errors.
+Finished in 61ms on 28 files with 116 rules using 8 threads.
