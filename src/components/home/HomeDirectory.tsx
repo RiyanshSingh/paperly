@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileOutput, FileType, ArrowRight } from 'lucide-react';
+
 import { Link } from 'react-router-dom';
 
 export const HomeDirectory: React.FC = () => {

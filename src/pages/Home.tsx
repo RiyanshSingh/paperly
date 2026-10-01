@@ -1,10 +1,10 @@
 import React from "react";
-import { Combine, Scissors, FileArchive, FileImage, Image, RotateCw, Trash2, Unlock, PenTool } from "lucide-react";
+import { Combine, Scissors, FileArchive, FileImage, RotateCw, Trash2, Unlock, PenTool } from "lucide-react";
 import { ToolCard } from "../components/ui/ToolCard";
 
 import { SEO } from "../components/SEO";
 import { Link } from "react-router-dom";
-import { FeatureMerge, FeatureSplit, FeatureCompress, FeatureEdit, FeatureConvert } from "../components/home/HomeSections";
+import { FeatureMerge, FeatureCompress, FeatureEdit, FeatureConvert } from "../components/home/HomeSections";
 import { HomeFAQ } from "../components/home/HomeFAQ";
 import { HomeWhyChoose } from "../components/home/HomeWhyChoose";
 import { HomeDirectory } from "../components/home/HomeDirectory";

@@ -32,7 +32,7 @@ rotImg.src = rotateIcon;
 if (fabric.Object.prototype.controls.mtr) {
   fabric.Object.prototype.controls.mtr.withConnection = false;
   fabric.Object.prototype.controls.mtr.offsetY = -24;
-  fabric.Object.prototype.controls.mtr.render = function(ctx, left, top, styleOverride, fabricObject) {
+  fabric.Object.prototype.controls.mtr.render = function(ctx, left, top, _styleOverride, fabricObject) {
     const size = 24;
     ctx.save();
     ctx.translate(left, top);

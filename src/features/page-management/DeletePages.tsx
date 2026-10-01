@@ -63,7 +63,7 @@ export const DeletePages: React.FC = () => {
   };
 
   const toggleSelection = (index: number) => {
-    setPages(prev => {
+    setPages((prev: any[]) => {
       const next = [...prev];
       next[index] = { ...next[index], isSelected: !next[index].isSelected };
       return next;
@@ -71,23 +71,23 @@ export const DeletePages: React.FC = () => {
   };
 
   const rotateSelected = () => {
-    setPages(prev => prev.map(p => 
+    setPages((prev: any[]) => prev.map((p: any) => 
       p.isSelected && !p.isDeleted ? { ...p, rotation: (p.rotation + 90) % 360 } : p
     ));
   };
 
   const deleteSelected = () => {
-    setPages(prev => prev.map(p => 
+    setPages((prev: any[]) => prev.map((p: any) => 
       p.isSelected ? { ...p, isDeleted: true, isSelected: false } : p
     ));
   };
 
   const selectAll = () => {
-    setPages(prev => prev.map(p => (!p.isDeleted ? { ...p, isSelected: true } : p)));
+    setPages((prev: any[]) => prev.map((p: any) => (!p.isDeleted ? { ...p, isSelected: true } : p)));
   };
 
   const clearSelection = () => {
-    setPages(prev => prev.map(p => ({ ...p, isSelected: false })));
+    setPages((prev: any[]) => prev.map((p: any) => ({ ...p, isSelected: false })));
   };
 
   // Drag and Drop reordering
@@ -100,7 +100,7 @@ export const DeletePages: React.FC = () => {
     e.preventDefault();
     if (draggedIndex === null || draggedIndex === index) return;
 
-    setPages(prev => {
+    setPages((prev: any[]) => {
       const next = [...prev];
       const [draggedItem] = next.splice(draggedIndex, 1);
       next.splice(index, 0, draggedItem);
@@ -305,7 +305,7 @@ export const DeletePages: React.FC = () => {
             {activeCount === 0 && (
               <div className="text-center py-16 text-zinc-500 border-2 border-dashed border-zinc-800 rounded-3xl mt-4">
                 <p className="text-lg font-medium text-white mb-2">All pages have been deleted.</p>
-                <button onClick={() => setPages(prev => prev.map(p => ({...p, isDeleted: false})))} className="text-zinc-400 hover:text-white underline transition-colors">Restore all pages</button>
+                <button onClick={() => setPages((prev: any[]) => prev.map((p: any) => ({...p, isDeleted: false})))} className="text-zinc-400 hover:text-white underline transition-colors">Restore all pages</button>
               </div>
             )}
           </div>

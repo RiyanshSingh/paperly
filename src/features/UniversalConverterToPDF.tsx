@@ -18,7 +18,7 @@ export const UniversalConverterToPDF: React.FC = () => {
   const displayTitle = `Convert ${formatName} to PDF`;
 
   // Map format to accepted MIME types for the dropzone
-  const getAcceptedTypes = () => {
+  const getAcceptedTypes = (): any => {
     const f = format?.toLowerCase();
     if (f === 'docx' || f === 'word') return { 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'], 'application/msword': ['.doc'] };
     if (f === 'xlsx' || f === 'excel') return { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'], 'application/vnd.ms-excel': ['.xls'] };

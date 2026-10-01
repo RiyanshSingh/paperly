@@ -39,7 +39,7 @@ export const MergePDF: React.FC = () => {
       hasError: false
     }));
     
-    setFiles(prev => [...prev, ...newFiles]);
+    setFiles((prev: any[]) => [...prev, ...newFiles]);
 
     // Load page counts asynchronously
     for (const item of newFiles) {
@@ -47,16 +47,16 @@ export const MergePDF: React.FC = () => {
         const arrayBuffer = await item.file.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
         const pageCount = pdf.getPageCount();
-        setFiles(prev => prev.map(f => f.id === item.id ? { ...f, pageCount } : f));
+        setFiles((prev: any[]) => prev.map((f: any) => f.id === item.id ? { ...f, pageCount } : f));
       } catch (err) {
         console.error("Failed to load PDF:", err);
-        setFiles(prev => prev.map(f => f.id === item.id ? { ...f, hasError: true } : f));
+        setFiles((prev: any[]) => prev.map((f: any) => f.id === item.id ? { ...f, hasError: true } : f));
       }
     }
   };
 
   const removeFile = (id: string) => {
-    setFiles(prev => prev.filter(f => f.id !== id));
+    setFiles((prev: any[]) => prev.filter((f: any) => f.id !== id));
   };
 
   const handleDragStart = (e: React.DragEvent, id: string) => {

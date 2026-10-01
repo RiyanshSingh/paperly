@@ -53,7 +53,7 @@ export const UnlockPDF: React.FC = () => {
 
     try {
       const arrayBuffer = await file.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer, { password });
+      const pdf = await PDFDocument.load(arrayBuffer, { password } as any);
       
       // Save it without encryption
       const pdfBytes = await pdf.save();

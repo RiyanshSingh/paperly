@@ -1,5 +1,5 @@
 import React from 'react';
-import { Combine, Scissors, FileArchive, FileImage, PenTool, CheckCircle2, Zap, Shield, Layers, Layout, ArrowRight, Type, Highlighter, Square, Eraser, MousePointer2 } from 'lucide-react';
+import { Scissors, FileArchive, FileImage, CheckCircle2, Zap, Shield, Layers, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const FeatureMerge: React.FC = () => {
