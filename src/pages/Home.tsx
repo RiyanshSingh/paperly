@@ -1,9 +1,13 @@
 import React from "react";
 import { Combine, Scissors, FileArchive, FileImage, Image, RotateCw, Trash2, Unlock, PenTool } from "lucide-react";
 import { ToolCard } from "../components/ui/ToolCard";
-import { AdPlaceholder } from "../components/ui/AdPlaceholder";
+
 import { SEO } from "../components/SEO";
 import { Link } from "react-router-dom";
+import { FeatureMerge, FeatureSplit, FeatureCompress, FeatureEdit, FeatureConvert } from "../components/home/HomeSections";
+import { HomeFAQ } from "../components/home/HomeFAQ";
+import { HomeWhyChoose } from "../components/home/HomeWhyChoose";
+import { HomeDirectory } from "../components/home/HomeDirectory";
 
 const tools = [
   {
@@ -89,13 +93,13 @@ export const Home: React.FC = () => {
         path="/"
       />
       {/* Hero Section */}
-      <section className="pt-32 pb-24 px-4">
+      <section className="pt-20 pb-24 px-4">
         <div className="container mx-auto max-w-5xl text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
-            Professional PDF Tools <br className="hidden md:block" /> For Everyone
+            A Smarter Way to Get More<br />Done With PDFs
           </h1>
-          <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
-            Based in your browser, we empower your productivity through exceptional, lightning-fast PDF manipulation—completely free and private.
+          <p className="text-xl text-zinc-400 mb-12 max-w-4xl mx-auto">
+            Work with PDFs more efficiently with everything you need in one place. Edit, merge, split, compress, convert, and organize documents through a streamlined experience designed for everyday work.
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">
@@ -123,9 +127,21 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <AdPlaceholder type="banner" className="my-8 border-zinc-800 bg-zinc-900/50 text-zinc-600" />
-      </div>
+      {/* Why Choose Paperly */}
+      <HomeWhyChoose />
+
+      {/* Explanatory Sections */}
+      <FeatureEdit />
+      <FeatureMerge />
+      <FeatureSplit />
+      <FeatureCompress />
+      <FeatureConvert />
+
+      {/* Full Directory */}
+      <HomeDirectory />
+
+      {/* FAQ Section */}
+      <HomeFAQ />
 
     </div>
   );

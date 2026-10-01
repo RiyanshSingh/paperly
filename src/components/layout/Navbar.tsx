@@ -15,8 +15,8 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-900 bg-black/60 backdrop-blur-xl">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="relative z-10 w-full bg-black pb-6">
+      <div className="container mx-auto px-4 h-12 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white">
             <div className="bg-white text-black p-1.5 rounded-full">
