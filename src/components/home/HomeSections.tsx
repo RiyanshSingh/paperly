@@ -1,5 +1,5 @@
 import React from 'react';
-import { Combine, Scissors, FileArchive, FileImage, PenTool, CheckCircle2, Zap, Shield, Layers, Layout, ArrowRight } from 'lucide-react';
+import { Combine, Scissors, FileArchive, FileImage, PenTool, CheckCircle2, Zap, Shield, Layers, Layout, ArrowRight, Type, Highlighter, Square, Eraser, MousePointer2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const FeatureMerge: React.FC = () => {
@@ -23,7 +23,7 @@ export const FeatureMerge: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <Link to="/merge-pdf" className="inline-flex items-center gap-2 text-white font-medium hover:text-blue-400 transition-colors mt-4">
+            <Link to="/merge-pdf" className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-zinc-200 text-black rounded-full font-medium transition-all hover:scale-105 mt-6">
               Try Merge PDF <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -87,7 +87,7 @@ export const FeatureCompress: React.FC = () => {
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-8">
             Our advanced compression algorithms reduce your PDF size drastically so it's easy to share via email or web without losing visual fidelity.
           </p>
-          <Link to="/compress-pdf" className="inline-flex items-center gap-2 text-white font-medium hover:text-purple-400 transition-colors">
+          <Link to="/compress-pdf" className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-zinc-200 text-black rounded-full font-medium transition-all hover:scale-105 mt-8">
             Try Compress PDF <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -126,9 +126,6 @@ export const FeatureEdit: React.FC = () => {
       <div className="container mx-auto max-w-7xl">
         <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
           <div className="flex-1 space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-500/10 text-fuchsia-400 text-sm font-medium">
-              <PenTool className="w-4 h-4" /> Advanced Editor
-            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
               Draw, highlight, and annotate naturally.
             </h2>
@@ -137,48 +134,25 @@ export const FeatureEdit: React.FC = () => {
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-zinc-300">
-                <CheckCircle2 className="w-5 h-5 text-fuchsia-400" /> Multi-color highlighter & pen tools
+                <CheckCircle2 className="w-5 h-5 text-white" /> Multi-color highlighter & pen tools
               </li>
               <li className="flex items-center gap-3 text-zinc-300">
-                <CheckCircle2 className="w-5 h-5 text-fuchsia-400" /> Insert text and shapes anywhere
+                <CheckCircle2 className="w-5 h-5 text-white" /> Insert text and shapes anywhere
               </li>
               <li className="flex items-center gap-3 text-zinc-300">
-                <CheckCircle2 className="w-5 h-5 text-fuchsia-400" /> Securely redact private text
+                <CheckCircle2 className="w-5 h-5 text-white" /> Securely redact private text
               </li>
             </ul>
-            <Link to="/edit-pdf" className="inline-flex items-center gap-2 text-white font-medium hover:text-fuchsia-400 transition-colors mt-4">
+            <Link to="/edit-pdf" className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-zinc-200 text-black rounded-full font-medium transition-all hover:scale-105 mt-8">
               Try Edit PDF <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="flex-1 w-full">
-            <div className="relative w-full aspect-[4/3] bg-zinc-900 rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden p-2">
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
-              <div className="w-full h-full bg-zinc-950 rounded-2xl border border-zinc-800 flex flex-col relative overflow-hidden">
-                 <div className="h-12 border-b border-zinc-800 flex items-center px-4 gap-4 bg-zinc-900/50">
-                   <div className="flex gap-2">
-                     <div className="w-3 h-3 rounded-full bg-red-500" />
-                     <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                     <div className="w-3 h-3 rounded-full bg-green-500" />
-                   </div>
-                   <div className="w-px h-4 bg-zinc-700 mx-2" />
-                   <div className="w-6 h-6 rounded bg-fuchsia-500/20 text-fuchsia-400 flex items-center justify-center"><PenTool className="w-3 h-3" /></div>
-                   <div className="w-6 h-6 rounded bg-zinc-800 text-zinc-400 flex items-center justify-center"><Layout className="w-3 h-3" /></div>
-                 </div>
-                 <div className="flex-1 p-8 flex justify-center items-center">
-                    <div className="w-64 h-80 bg-white rounded shadow-lg p-6 flex flex-col gap-4 relative">
-                      <div className="w-3/4 h-4 bg-zinc-200 rounded" />
-                      <div className="w-full h-2 bg-zinc-100 rounded" />
-                      <div className="w-full h-2 bg-zinc-100 rounded" />
-                      <div className="w-5/6 h-2 bg-zinc-100 rounded" />
-                      
-                      <div className="absolute top-20 left-10 w-32 h-8 bg-yellow-200/50 rotate-3 rounded" />
-                      <svg className="absolute bottom-12 right-8 w-24 h-12 text-fuchsia-500" viewBox="0 0 100 50" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                         <path d="M10,30 Q30,10 50,40 T90,20" />
-                      </svg>
-                    </div>
-                 </div>
-              </div>
-            </div>
+          <div className="flex-1 w-full flex items-center justify-center mt-8 lg:mt-0">
+            <img 
+              src="/editpdfsection.png" 
+              alt="PDF Editor Interface" 
+              className="w-full max-w-md lg:max-w-lg h-auto object-contain drop-shadow-[0_0_50px_rgba(217,70,239,0.15)] scale-95 lg:scale-100 transition-transform duration-500" 
+            />
           </div>
         </div>
       </div>

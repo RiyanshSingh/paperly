@@ -6,33 +6,37 @@ const features = [
     title: "100% Private",
     description: "Every file is processed securely within your own browser. Your sensitive documents are never uploaded to any server.",
     icon: Shield,
-    color: "text-emerald-400",
-    gradient: "from-emerald-500/20 via-emerald-500/5 to-transparent",
-    glow: "bg-emerald-500/30"
+    iconColor: "text-emerald-400",
+    iconContainerClass: "bg-emerald-500/5 border-emerald-500/20",
+    gradient: "from-emerald-500/30 via-black to-black",
+    glow: "bg-emerald-500"
   },
   {
     title: "Lightning Fast",
     description: "Since there's no uploading or downloading, operations complete almost instantly by utilizing your device's local power.",
     icon: Zap,
-    color: "text-amber-400",
-    gradient: "from-amber-500/20 via-amber-500/5 to-transparent",
-    glow: "bg-amber-500/30"
+    iconColor: "text-amber-400",
+    iconContainerClass: "bg-amber-500/5 border-amber-500/20",
+    gradient: "from-amber-500/30 via-black to-black",
+    glow: "bg-amber-500"
   },
   {
     title: "Completely Free",
     description: "We believe essential tools should be accessible. There are no paywalls, premium tiers, or hidden subscriptions.",
     icon: Sparkles,
-    color: "text-fuchsia-400",
-    gradient: "from-fuchsia-500/20 via-fuchsia-500/5 to-transparent",
-    glow: "bg-fuchsia-500/30"
+    iconColor: "text-fuchsia-400",
+    iconContainerClass: "bg-fuchsia-500/5 border-fuchsia-500/20",
+    gradient: "from-fuchsia-500/30 via-black to-black",
+    glow: "bg-fuchsia-500"
   },
   {
     title: "No Sign-Up",
     description: "No emails, no accounts, no passwords. Just open the tool and start working immediately without any friction.",
     icon: UserCheck,
-    color: "text-blue-400",
-    gradient: "from-blue-500/20 via-blue-500/5 to-transparent",
-    glow: "bg-blue-500/30"
+    iconColor: "text-blue-400",
+    iconContainerClass: "bg-blue-500/5 border-blue-500/20",
+    gradient: "from-blue-500/30 via-black to-black",
+    glow: "bg-blue-500"
   }
 ];
 
@@ -48,7 +52,7 @@ export const HomeWhyChoose: React.FC = () => {
             Why Choose Paperly?
           </h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            We built Paperly to be the PDF tool we always wished existed—fast, secure, and entirely user-first.
+            We built Paperly to be the PDF tool we always wished existed: fast, secure, and entirely user-first.
           </p>
         </div>
 
@@ -56,16 +60,24 @@ export const HomeWhyChoose: React.FC = () => {
           {features.map((feature, i) => (
             <div 
               key={i} 
-              className={`relative group bg-gradient-to-b ${feature.gradient} border border-zinc-800/60 rounded-[2rem] p-8 overflow-hidden hover:scale-[1.02] transition-transform duration-300`}
+              className={`relative group bg-gradient-to-b ${feature.gradient} border-t border-x border-zinc-800/40 border-b-0 rounded-[2rem] p-8 overflow-hidden hover:scale-[1.02] transition-transform duration-300 shadow-2xl`}
             >
-              <div className={`absolute -top-10 -right-10 w-32 h-32 blur-3xl rounded-full ${feature.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              {/* Very soft additional mesh glow at top-left */}
+              <div className={`absolute -top-10 -left-10 w-48 h-48 blur-[70px] rounded-full ${feature.glow} opacity-30 z-0`} />
               
-              <feature.icon className={`w-10 h-10 ${feature.color} mb-8 stroke-[1.5]`} />
+              {/* Bottom fade mask to prevent any color bleed at the bottom edge */}
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent z-0 pointer-events-none" />
               
-              <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{feature.title}</h3>
-              <p className="text-zinc-400 leading-relaxed font-light">
-                {feature.description}
-              </p>
+              <div className="relative z-10">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-10 border backdrop-blur-md ${feature.iconContainerClass}`}>
+                  <feature.icon className={`w-6 h-6 ${feature.iconColor}`} />
+                </div>
+                
+                <h3 className="text-3xl font-medium text-white mb-4 tracking-tight">{feature.title}</h3>
+                <p className="text-zinc-400 leading-relaxed font-light">
+                  {feature.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

@@ -13,6 +13,9 @@ import { JPGToPDF } from './features/jpg-to-pdf/JPGToPDF';
 import { CompressPDF } from './features/compress/CompressPDF';
 import { UnlockPDF } from './features/unlock/UnlockPDF';
 import { PDFEditor } from './features/editor/PDFEditor';
+import { UniversalConverter } from './features/UniversalConverter';
+import { UniversalConverterToPDF } from './features/UniversalConverterToPDF';
+import { ConversionDirectoryPage } from './pages/ConversionDirectoryPage';
 
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
@@ -41,6 +44,12 @@ function App() {
             <Route path="delete-pdf-pages" element={<DeletePages />} />
             <Route path="unlock-pdf" element={<UnlockPDF />} />
             <Route path="edit-pdf" element={<PDFEditor />} />
+            <Route path="convert/:format" element={<UniversalConverter />} />
+            <Route path="convert-to-pdf/:format" element={<UniversalConverterToPDF />} />
+            
+            <Route path="convert-from-pdf" element={<ConversionDirectoryPage />} />
+            <Route path="convert-to-pdf" element={<ConversionDirectoryPage />} />
+            
             <Route path="tools" element={<Home />} />
             
             <Route path="about" element={<Placeholder title="About Us" />} />

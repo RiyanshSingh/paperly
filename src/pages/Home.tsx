@@ -19,14 +19,6 @@ const tools = [
     tag: "Essential"
   },
   {
-    title: "Split PDF",
-    description: "Extract Pages",
-    icon: Scissors,
-    path: "/split-pdf",
-    gradientClass: "bg-gradient-to-br from-orange-300 to-amber-500",
-    tag: "Popular"
-  },
-  {
     title: "Compress PDF",
     description: "Reduce Size",
     icon: FileArchive,
@@ -35,28 +27,20 @@ const tools = [
     tag: "Utility"
   },
   {
-    title: "PDF to JPG",
-    description: "Extract Images",
-    icon: FileImage,
-    path: "/pdf-to-jpg",
-    gradientClass: "bg-gradient-to-br from-emerald-300 to-emerald-500",
-    tag: "Convert"
+    title: "Edit PDF",
+    description: "Draw, Text, Annotate",
+    icon: PenTool,
+    path: "/edit-pdf",
+    gradientClass: "bg-gradient-to-br from-rose-400 to-red-500",
+    tag: "New"
   },
   {
-    title: "JPG to PDF",
-    description: "Images to PDF",
-    icon: Image,
-    path: "/jpg-to-pdf",
-    gradientClass: "bg-gradient-to-br from-rose-300 to-red-500",
-    tag: "Convert"
-  },
-  {
-    title: "Rotate PDF",
-    description: "Fix Orientation",
-    icon: RotateCw,
-    path: "/rotate-pdf",
-    gradientClass: "bg-gradient-to-br from-cyan-300 to-cyan-500",
-    tag: "Edit"
+    title: "Split PDF",
+    description: "Extract Pages",
+    icon: Scissors,
+    path: "/split-pdf",
+    gradientClass: "bg-gradient-to-br from-orange-300 to-amber-500",
+    tag: "Popular"
   },
   {
     title: "Organize PDF",
@@ -67,21 +51,29 @@ const tools = [
     tag: "Advanced"
   },
   {
+    title: "Rotate PDF",
+    description: "Fix Orientation",
+    icon: RotateCw,
+    path: "/rotate-pdf",
+    gradientClass: "bg-gradient-to-br from-cyan-300 to-cyan-500",
+    tag: "Edit"
+  },
+  {
+    title: "PDF to JPG",
+    description: "Extract Images",
+    icon: FileImage,
+    path: "/pdf-to-jpg",
+    gradientClass: "bg-gradient-to-br from-emerald-300 to-emerald-500",
+    tag: "Convert"
+  },
+  {
     title: "Unlock PDF",
     description: "Remove Password",
     icon: Unlock,
     path: "/unlock-pdf",
     gradientClass: "bg-gradient-to-br from-indigo-300 to-indigo-500",
     tag: "Security"
-  },
-  {
-    title: "Edit PDF",
-    description: "Draw, Text, Annotate",
-    icon: PenTool,
-    path: "/edit-pdf",
-    gradientClass: "bg-gradient-to-br from-fuchsia-400 to-fuchsia-600",
-    tag: "New"
-  },
+  }
 ];
 
 export const Home: React.FC = () => {
@@ -130,15 +122,14 @@ export const Home: React.FC = () => {
       {/* Why Choose Paperly */}
       <HomeWhyChoose />
 
+      {/* Full Directory */}
+      <HomeDirectory />
+
       {/* Explanatory Sections */}
       <FeatureEdit />
       <FeatureMerge />
-      <FeatureSplit />
       <FeatureCompress />
       <FeatureConvert />
-
-      {/* Full Directory */}
-      <HomeDirectory />
 
       {/* FAQ Section */}
       <HomeFAQ />

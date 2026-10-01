@@ -128,6 +128,97 @@ app.post('/api/compress', upload.single('pdf'), async (req, res) => {
     return res.status(500).json({ error: 'Failed to compress PDF.' });
   }
 });
+// UNIVERSAL CONVERT ENDPOINT
+app.post('/api/convert', upload.single('pdf'), async (req, res) => {
+  const file = req.file;
+  const format = req.body.format;
+
+  if (!file || !format) {
+    return res.status(400).json({ error: 'File and format are required' });
+  }
+
+  const inputPath = file.path;
+  const safeFormat = format.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
+  // Set appropriate extension
+  let ext = safeFormat;
+  if (['jpg', 'png', 'webp'].includes(safeFormat)) {
+      ext = 'zip'; // Image extracts will be zipped
+  }
+  
+  const outputPath = path.join('uploads', `converted_${file.filename}.${ext}`);
+  const pythonPath = path.join(__dirname, 'venv', 'bin', 'python');
+  const scriptPath = path.join(__dirname, 'convert.py');
+
+  const cmd = `"${pythonPath}" "${scriptPath}" "${inputPath}" "${outputPath}" "${safeFormat}"`;
+
+  exec(cmd, (error, stdout, stderr) => {
+    if (error) {
+      console.error('Python conversion error:', stderr || error.message);
+      if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+      return res.status(500).json({ error: 'Failed to convert PDF.' });
+    }
+
+    res.download(outputPath, `converted.${ext}`, () => {
+      if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+    });
+  });
+});
+// UNIVERSAL CONVERT TO PDF ENDPOINT
+app.post('/api/convert-to-pdf', upload.single('file'), async (req, res) => {
+  const file = req.file;
+  const format = req.body.format;
+
+  if (!file || !format) {
+    return res.status(400).json({ error: 'File and format are required' });
+  }
+
+  const inputPath = file.path;
+  const safeFormat = format.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const outputPath = path.join('uploads', `converted_${file.filename}.pdf`);
+  
+  // Try Python first (for images)
+  const pythonPath = path.join(__dirname, 'venv', 'bin', 'python');
+  const scriptPath = path.join(__dirname, 'convert_to_pdf.py');
+
+  exec(`"${pythonPath}" "${scriptPath}" "${inputPath}" "${outputPath}" "${safeFormat}"`, (error, stdout, stderr) => {
+    if (stdout && stdout.includes("USE_LIBREOFFICE")) {
+      // Use LibreOffice for Word, Excel, PPT, etc.
+      // Rename input file so LibreOffice knows the extension
+      const loInputPath = inputPath + '.' + safeFormat;
+      fs.renameSync(inputPath, loInputPath);
+      
+      const loCmd = `/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir "${path.join(__dirname, 'uploads')}" "${loInputPath}"`;
+      
+      exec(loCmd, (loError, loStdout, loStderr) => {
+        const loExpectedOutput = path.join('uploads', path.basename(loInputPath).replace('.' + safeFormat, '.pdf'));
+        
+        if (loError || !fs.existsSync(loExpectedOutput)) {
+          console.error('LibreOffice error:', loStderr || loError?.message);
+          if (fs.existsSync(loInputPath)) fs.unlinkSync(loInputPath);
+          return res.status(500).json({ error: 'Failed to convert file to PDF using LibreOffice.' });
+        }
+
+        res.download(loExpectedOutput, 'converted.pdf', () => {
+          if (fs.existsSync(loInputPath)) fs.unlinkSync(loInputPath);
+          if (fs.existsSync(loExpectedOutput)) fs.unlinkSync(loExpectedOutput);
+        });
+      });
+    } else if (error) {
+      console.error('Python image conversion error:', stderr || error.message);
+      if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+      return res.status(500).json({ error: 'Failed to convert image to PDF.' });
+    } else {
+      // Success from python
+      res.download(outputPath, 'converted.pdf', () => {
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+      });
+    }
+  });
+});
 
 const PORT = 3001;
 app.listen(PORT, () => {

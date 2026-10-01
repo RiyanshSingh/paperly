@@ -11,6 +11,7 @@ export const Navbar: React.FC = () => {
     { name: "Merge PDF", path: "/merge-pdf" },
     { name: "Split PDF", path: "/split-pdf" },
     { name: "Compress PDF", path: "/compress-pdf" },
+    { name: "Sign PDF", path: "/edit-pdf" },
     { name: "All Tools", path: "/tools" },
   ];
 
